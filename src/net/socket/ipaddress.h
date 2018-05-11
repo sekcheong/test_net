@@ -7,8 +7,13 @@
 #include <string>
 #include <regex>
 
+#include <string>       // std::string
+#include <iostream>     // std::cout
+#include <sstream>      // std::stringstream
+
 #include "../net.h"
 #include "addressfamily.h"
+
 
 namespace msv {
 namespace net {
@@ -38,8 +43,23 @@ public:
     return _address;
   }
 
+  std::string get_address_string() {
+    int a, b, c, d;
+    unpack_ipv4_address(_address, a, b, c, d);
+    std::stringstream ss;
+    ss << a << "." << b << "." << c << "." << d ;
+    return ss.str();
+  }
+
   static unsigned long make_ipv4_address(int a, int b, int c, int d) {
     return (long) d | ((unsigned int) c << 8) | ((unsigned int) b << 16) | ((unsigned int) a << 24);
+  }
+
+  static unsigned long unpack_ipv4_address(unsigned long addr, int &a, int &b, int &c, int &d) {
+    a = addr & 0x00000000ff000000 >> 24;
+    b = addr & 0x0000000000ff0000 >> 16;
+    c = addr & 0x000000000000ff00 >> 8;
+    d = addr & 0x00000000000000ff;
   }
 
   static bool is_valid_ipv4_address(const std::string& s) {

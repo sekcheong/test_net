@@ -9,6 +9,7 @@
 #define TESTS_TESTS_H_
 
 #include "../src/core/core.h"
+#include "../src/util/strutil.h"
 #include "../src/net/net.h"
 #include "../src/net/socket/addressfamily.h"
 #include "../src/net/socket/ipaddress.h"
