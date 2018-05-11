@@ -6,16 +6,15 @@ using namespace std;
 using namespace msv;
 using namespace msv::net::sockets;
 
-unsigned long makeIPv4Address(int a, int b, int c, int d) {
+unsigned long make_ipv4_address(int a, int b, int c, int d) {
   return (long) d | ((unsigned int)c << 8) | ((unsigned int)b << 16) | ((unsigned int)a << 24);
 }
 
-
 void test_string_to_ip_addr(int a, int b, int c, int d) {
   string ipstr = to_string(a) + "." + to_string(b) + "." + to_string(c) + "." + to_string(d);
-  IPAddress addr(ipstr);
-  auto ip = addr.getIPAddress();
-  auto v = makeIPv4Address(a, b, c, d);
+  ip_address addr(ipstr);
+  auto ip = addr.get_address();
+  auto v = make_ipv4_address(a, b, c, d);
   if (ip!=v) {
     cerr << "** ERROR: Address not equal to " << ipstr << endl;
     throw;
@@ -30,7 +29,7 @@ int test_net_socket_ipaddress() {
   cout << "test_net_socket_ipaddress() " << endl;
   cout << "Test case 1...";
   try {
-    IPAddress addr(0);
+    ip_address addr(0);
     cout << "OK" << endl;
   }
   catch (...) {
@@ -40,7 +39,7 @@ int test_net_socket_ipaddress() {
 
   cout << "Test case 2...";
   try {
-    IPAddress addr(0xffffffff);
+    ip_address addr(0xffffffff);
     cout << "OK" << endl;
   }
   catch (...) {
@@ -51,21 +50,21 @@ int test_net_socket_ipaddress() {
   cout << "Test case 3...";
   try {
     long ip = 0xffffffff;
-    IPAddress addr(ip+1);
+    ip_address addr(ip+1);
     cerr << "** ERROR: OutOfRangeException not raised for MAX!" << endl;
     throw;
   }
-  catch (ArgumentOutOfRangeException &ex) {
+  catch (argument_out_of_range_exception &ex) {
     cout << "OK" << endl;
   }
 
   cout << "Test case 4...";
   try {
-    IPAddress addr(-1);
+    ip_address addr(-1);
     cerr << "** ERROR: OutOfRangeException not raised for MIN!" << endl;
     throw;
   }
-  catch (ArgumentOutOfRangeException &ex) {
+  catch (argument_out_of_range_exception &ex) {
     cout << "OK" << endl;
   }
 

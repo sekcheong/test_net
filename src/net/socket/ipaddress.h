@@ -15,46 +15,45 @@ namespace net {
 namespace sockets {
 
 
-
-class IPAddress {
+class ip_address {
 public:
 
-  IPAddress(unsigned long address) {
-    setIPAddress(address);
+  ip_address(unsigned long address) {
+    set_address(address);
   }
 
-  IPAddress(std::string address) {
-    if (!isValidIPV4Address(address)) {
-      throw ArgumentException("IPAddress(): address '" + address + "' is invalid.");
+  ip_address(std::string address) {
+    if (!is_valid_ipv4_address(address)) {
+      throw argument_exception("IPAddress(): address '" + address + "' is invalid.");
     }
     std::stringstream s(address);
     char ch; //temp variable to store the '.'
     int a, b, c, d;
     s >> a >> ch >> b >> ch >> c >> ch >> d;
-    auto addr = makeIPv4Address(a, b, c, d);
-    setIPAddress(addr);
+    auto addr = make_ipv4_address(a, b, c, d);
+    set_address(addr);
   }
 
-  unsigned long  getIPAddress() {
+  unsigned long  get_address() {
     return _address;
+  }
+
+  static unsigned long make_ipv4_address(int a, int b, int c, int d) {
+    return (long) d | ((unsigned int) c << 8) | ((unsigned int) b << 16) | ((unsigned int) a << 24);
+  }
+
+  static bool is_valid_ipv4_address(const std::string& s) {
+    static const std::regex e("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
+	return regex_match(s, e);
   }
 
 private:
 
-  unsigned long makeIPv4Address(int a, int b, int c, int d) {
-    return (long) d | ((unsigned int)c << 8) | ((unsigned int)b << 16) | ((unsigned int)a << 24);
-  }
-
-  void setIPAddress(unsigned long address) {
+  void set_address(unsigned long address) {
     if (address > ADDR_MAX) {
-      throw ArgumentOutOfRangeException("getIPAddress(): address out of range");
+      throw argument_out_of_range_exception("getIPAddress(): address out of range");
     }
     _address = address;
-  }
-
-  bool isValidIPV4Address(const std::string& s) {
-     static const std::regex e("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
-     return regex_match(s, e);
   }
 
 private:

@@ -14,22 +14,22 @@
 namespace msv {
 
 
-class ArgumentException: public ExceptionBase {
+class argument_exception: public exception_base {
 public:
   //inherits the base constructor
-  using ExceptionBase::ExceptionBase;
+  using exception_base::exception_base;
 };
 
-class ArgumentNullException: public ExceptionBase {
+class argument_null_exception: public exception_base {
 public:
   //inherits the base constructor
-  using ExceptionBase::ExceptionBase;
+  using exception_base::exception_base;
 };
 
-class ArgumentOutOfRangeException: public ArgumentException {
+class argument_out_of_range_exception: public argument_exception {
 public:
   //inherits the base constructor
-  using ArgumentException::ArgumentException;
+  using argument_exception::argument_exception;
 };
 
 

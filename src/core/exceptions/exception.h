@@ -6,19 +6,19 @@
 
 namespace msv {
 
-class ExceptionBase: public std::exception {
+class exception_base: public std::exception {
 public:
 
-  ExceptionBase() {
+  exception_base() {
     _errorCode = 0;
   }
 
-  explicit ExceptionBase(std::string errorMsg) {
+  explicit exception_base(std::string errorMsg) {
     _errorMsg = errorMsg;
     _errorCode = 0;
   }
 
-  explicit ExceptionBase(std::string errorMsg, int errorCode) {
+  explicit exception_base(std::string errorMsg, int errorCode) {
     _errorMsg = errorMsg;
     _errorCode = errorCode;
   }
@@ -35,7 +35,7 @@ public:
     return _errorCode;
   }
 
-  virtual ~ExceptionBase() throw () {}
+  virtual ~exception_base() throw () {}
 
 private:
   std::string _errorMsg;

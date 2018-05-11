@@ -5,7 +5,7 @@ namespace msv {
 namespace net {
 namespace sockets {
 
-enum class AddressFamily {
+enum class address_family {
   Unknown = -1,           // Unknown
   Unspecified = 0,        // unspecified
   Unix = 1,               // local to host (pipes, portals)
