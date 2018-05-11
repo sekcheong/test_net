@@ -21,6 +21,9 @@ void test_string_to_ip_addr(int a, int b, int c, int d) {
   }
 }
 
+#define ERROR(x) cerr << "** ERROR: " << x << endl
+#define OK() cout << "OK" << endl
+
 string retText(string text) {
   return "!";
 }
@@ -30,42 +33,40 @@ int test_net_socket_ipaddress() {
   cout << "Test case 1...";
   try {
     ip_address addr(0);
-    cout << "OK" << endl;
+    OK();
   }
   catch (...) {
-    cerr << "** ERROR: Unknown error!" << endl;
-    throw;
+    ERROR("Unknown error!");
   }
 
   cout << "Test case 2...";
   try {
     ip_address addr(0xffffffff);
-    cout << "OK" << endl;
+    OK();
   }
   catch (...) {
-    cerr << "** ERROR: Unknow error!" << endl;
-    throw;
+    ERROR("Unknown error!");
   }
 
   cout << "Test case 3...";
   try {
     long ip = 0xffffffff;
     ip_address addr(ip+1);
-    cerr << "** ERROR: OutOfRangeException not raised for MAX!" << endl;
+    ERROR("OutOfRangeException not raised for MAX!");
     throw;
   }
   catch (argument_out_of_range_exception &ex) {
-    cout << "OK" << endl;
+    OK();
   }
 
   cout << "Test case 4...";
   try {
     ip_address addr(-1);
-    cerr << "** ERROR: OutOfRangeException not raised for MIN!" << endl;
+    ERROR("OutOfRangeException not raised for MIN!");
     throw;
   }
   catch (argument_out_of_range_exception &ex) {
-    cout << "OK" << endl;
+    OK();
   }
 
   cout << "Test case 5...";
@@ -76,9 +77,18 @@ int test_net_socket_ipaddress() {
   test_string_to_ip_addr(255, 255, 0, 255);
   test_string_to_ip_addr(255, 255, 255, 0);
   test_string_to_ip_addr(0, 0, 0, 0);
-  cout << "OK" << endl;
+  OK();
 
+  cout << "Test case 6...";
+  ip_address addr2(make_ipv4_address(192,168,1, 1));
+  if (addr2.get_address_string()!="192.168.1.1") {
+    ERROR("get_address_string() not equal to 192.168.1.1");
+  }
+  OK();
+
+  cout << endl;
   cout << "ALL TESTS PASSED" << endl;
+  //cout << sizeof(ip_address) << endl;
 
   return 0;
 }

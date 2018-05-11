@@ -21,10 +21,19 @@ namespace sockets {
 
 
 class ip_address {
+
 public:
+  static const unsigned long addr_any = 0;
+  static const unsigned long addr_lookback = 0x000000000100007f;
+  static const unsigned long addr_broadcast = 0x00000000ffffffff;
 
   ip_address(unsigned long address) {
     set_address(address);
+  }
+
+  ip_address(int a, int b, int c, int d) {
+    auto addr = make_ipv4_address(a,b,c,d);
+    set_address(addr);
   }
 
   ip_address(std::string address) {
@@ -55,16 +64,16 @@ public:
     return (long) d | ((unsigned int) c << 8) | ((unsigned int) b << 16) | ((unsigned int) a << 24);
   }
 
-  static unsigned long unpack_ipv4_address(unsigned long addr, int &a, int &b, int &c, int &d) {
-    a = addr & 0x00000000ff000000 >> 24;
-    b = addr & 0x0000000000ff0000 >> 16;
-    c = addr & 0x000000000000ff00 >> 8;
-    d = addr & 0x00000000000000ff;
+  static void unpack_ipv4_address(unsigned long addr, int &a, int &b, int &c, int &d) {
+    a = (addr & 0x00000000ff000000) >> 24;
+    b = (addr & 0x0000000000ff0000) >> 16;
+    c = (addr & 0x000000000000ff00) >> 8;
+    d = (addr & 0x00000000000000ff);
   }
 
   static bool is_valid_ipv4_address(const std::string& s) {
     static const std::regex e("\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}");
-	return regex_match(s, e);
+    return regex_match(s, e);
   }
 
 private:
